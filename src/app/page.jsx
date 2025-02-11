@@ -7,24 +7,40 @@ import { handleChange } from "./hook/handleChange";
 
 export default function Home() {
   const [textField, setTextField] = useState({});
-  const [lists, setLists] = useState(
-    JSON.parse(localStorage.getItem("lists")) || {}
-  );
+  const [lists, setLists] = useState({});
+
+  // Load data from localStorage safely
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedLists = JSON.parse(localStorage.getItem("lists")) || {};
+      setLists(storedLists);
+    }
+  }, []);
+
   const handleList = (e) => {
     e.preventDefault();
     if (textField.list) {
-      setLists((prev) => ({ ...prev, [textField.list]: [] }));
+      setLists((prev) => {
+        const updatedLists = { ...prev, [textField.list]: [] };
+        localStorage.setItem("lists", JSON.stringify(updatedLists)); // Update localStorage
+        return updatedLists;
+      });
       setTextField({}); // Reset input field
     }
   };
 
   useEffect(() => {
-    localStorage.setItem("lists", JSON.stringify({ ...lists }));
-  }, [handleCardAdder, handleList]);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("lists", JSON.stringify(lists));
+    }
+  }, [lists]); // Only update when lists change
+
   useEffect(() => {
     const interval = setInterval(() => {
-      console.log('updating list...')
-      setLists(JSON.parse(localStorage.getItem("lists")) || {});
+      if (typeof window !== "undefined") {
+        console.log("Updating list...");
+        setLists(JSON.parse(localStorage.getItem("lists")) || {});
+      }
     }, 1000);
 
     return () => clearInterval(interval);
