@@ -8,12 +8,11 @@ import { handleChange } from "../hook/handleChange";
 export default function DraggableList({
     list,
     index,
-    textField,
-    setTextField,
     lists,
     setList,
   }) {
     const [onDragOver, setOnDragOver] = useState(false);
+    let [textField, setTextField] = useState({})
     return (
       <Paper
         sx={{

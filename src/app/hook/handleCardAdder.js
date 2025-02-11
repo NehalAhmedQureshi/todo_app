@@ -1,7 +1,10 @@
-export function handleCardAdder(e, list,setTextField,textField,setLists){
+export function handleCardAdder(e, list,setTextField,textField,setList){
+    console.log("🚀 ~ handleCardAdder ~ setList:", setList)
+    console.log("🚀 ~ handleCardAdder ~ textField:", textField)
+    console.log("🚀 ~ handleCardAdder ~ list:", list)
     e.preventDefault();
     if (textField[list]) {
-      setLists((prev) => ({
+      setList((prev) => ({
         ...prev,
         [list]: [...prev[list], textField[list]],
       }));
