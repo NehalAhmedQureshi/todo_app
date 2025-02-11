@@ -35,17 +35,6 @@ export default function Home() {
     }
   }, [lists]); // Only update when lists change
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (typeof window !== "undefined") {
-        console.log("Updating list...");
-        setLists(JSON.parse(localStorage.getItem("lists")) || {});
-      }
-    }, 3000);
-
-    return () => clearInterval(interval);
-  }, []);
-
   return (
     <Stack sx={{ width: "100%", minHeight: "100vh", padding: "20px 0px" }}>
       <Container maxWidth="lg" sx={{ padding: "10px 0px" }}>

@@ -48,6 +48,7 @@ export default function DraggableList({
                   list={list}
                   card={card}
                   key={index}
+                  setLists={setList}
                 />
               );
             })}
