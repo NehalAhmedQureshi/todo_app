@@ -41,7 +41,7 @@ export default function Home() {
         console.log("Updating list...");
         setLists(JSON.parse(localStorage.getItem("lists")) || {});
       }
-    }, 1000);
+    }, 3000);
 
     return () => clearInterval(interval);
   }, []);
