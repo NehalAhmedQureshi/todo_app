@@ -30,9 +30,9 @@ export default function DraggableList({
           component={"form"}
           onSubmit={(e) => handleCardAdder(e, list,setTextField,textField,setList)}
         >
-          <Typography variant="h4">{[list]}</Typography>
+          <Typography variant="h4">{list}</Typography>
           <TextField
-            name={[list]}
+            name={list}
             label="Enter Cards"
             onChange={(e)=>handleChange(e,setTextField)}
             value={textField[list] || ""}
