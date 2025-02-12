@@ -10,20 +10,12 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
+import BasicMenu from "./BasicMenu";
 
 export default function DraggableCard({ card, index, list, lists,setLists }) {
   let [isMoving, setIsMoving] = useState(false);
   let [dragOver, setDragOver] = useState(false);
-  const handleListChange = (e) => {
-    let {value} = e.target
-    let oldIndex = lists[list].indexOf(card)
-    lists[list].splice(oldIndex , 1)
-    lists[value][lists[value].length] = card
-    localStorage.setItem('lists' , JSON.stringify({...lists}))
-    const listData = JSON.parse(localStorage.getItem('lists'))
-    setLists({...listData})
-
-  };
+  
   return (
     <>
       <Paper
@@ -42,19 +34,9 @@ export default function DraggableCard({ card, index, list, lists,setLists }) {
         onDragOver={(e) => setDragOver(true)}
         onDragLeave={(e) => setDragOver(false)}
       >
-        <Stack direction={"row"} justifyContent={"space-between"}>
+        <Stack direction={"row"} alignItems={'center'} justifyContent={"space-between"}>
           <Typography variant="body2">{`${card}`}</Typography>
-          <Select
-            value={list}
-            sx={{ height: "20px" }}
-            onChange={handleListChange}
-          >
-            {Object.keys(lists).map((list, key) => (
-              <MenuItem sx={{ height: "20px" }} value={list} key={key}>
-                <Typography variant="body2">{list}</Typography>
-              </MenuItem>
-            ))}
-          </Select>
+          <BasicMenu list={list} lists={lists} setLists={setLists} card={card} />
         </Stack>
       </Paper>
       {dragOver && (

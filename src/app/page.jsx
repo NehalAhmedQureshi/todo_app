@@ -1,9 +1,21 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Button, Container, Grid, Stack, TextField } from "@mui/material";
+import {
+  Button,
+  Container,
+  Divider,
+  Grid,
+  IconButton,
+  Stack,
+  TextField,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import DraggableList from "./components/DraggableList";
 import { handleCardAdder } from "./hook/handleCardAdder";
 import { handleChange } from "./hook/handleChange";
+import AddIcon from "@mui/icons-material/Add";
+import { Add, DeleteForever } from "@mui/icons-material";
 
 export default function Home() {
   const [textField, setTextField] = useState({});
@@ -11,7 +23,7 @@ export default function Home() {
   // Load data from localStorage safely
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const storedLists = JSON.parse(localStorage.getItem("lists")) ||{};
+      const storedLists = JSON.parse(localStorage.getItem("lists")) || {};
       setLists(storedLists);
     }
   }, []);
@@ -27,6 +39,10 @@ export default function Home() {
       setTextField({}); // Reset input field
     }
   };
+  // delete all lists
+  const removeAll = () => {
+    setLists({});
+  };
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -35,19 +51,54 @@ export default function Home() {
   }, [lists]); // Only update when lists change
 
   return (
-    <Stack sx={{ width: "100%", minHeight: "100vh", padding: "20px 0px" }}>
-      <Container maxWidth="lg" sx={{ padding: "10px 0px" }}>
-        <Stack component="form" gap={1} onSubmit={handleList}>
-          <TextField
-            name="list"
-            label="List Name"
-            onChange={(e) => handleChange(e, setTextField)}
-            value={textField.list || ""}
-          />
-          <Button variant="contained" type="submit">
-            Add List
-          </Button>
+    <Stack sx={{ width: "100%", minHeight: "90vh" }}>
+      <Container>
+        <Stack
+          direction={"row"}
+          alignItems={"center"}
+          justifyContent={"space-between"}
+        >
+          <Typography alignSelf={'center'} variant="h5">Todo App</Typography>
+          <Stack
+            direction={"row"}
+            component="form"
+            gap={1}
+            onSubmit={handleList}
+          >
+            <TextField
+              name="list"
+              label="Add List"
+              onChange={(e) => handleChange(e, setTextField)}
+              value={textField.list || ""}
+              variant="standard"
+            />
+            {/* add icon button */}
+            <Tooltip title="Add" arrow>
+              <IconButton
+                sx={{ marginTop: "15px" }}
+                type="submit"
+                variant="outlined"
+                fullWidth
+              >
+                <Add />
+              </IconButton>
+            </Tooltip>
+            {/* remove all icon button */}
+            <Tooltip title="Delete All" arrow>
+              <IconButton
+                sx={{ marginTop: "15px" }}
+                variant="outlined"
+                fullWidth
+                onClick={removeAll}
+              >
+                <DeleteForever />
+              </IconButton>
+            </Tooltip>
+          </Stack>
         </Stack>
+        <Divider sx={{ paddingBottom: "10px" }} />
+      </Container>
+      <Container maxWidth="lg" sx={{ padding: "10px 0px" }}>
         <Grid container spacing={2} pt={2}>
           {Object.keys(lists).map((list, index) => (
             <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
