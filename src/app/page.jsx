@@ -7,13 +7,13 @@ import { handleChange } from "./hook/handleChange";
 
 export default function Home() {
   const [textField, setTextField] = useState({});
-  const [lists, setLists] = useState({});
+  const [lists, setLists] = useState({Todo:[],Review:[],Completed:[]});
   console.log("🚀 ~ Home ~ lists:", lists)
 
   // Load data from localStorage safely
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const storedLists = JSON.parse(localStorage.getItem("lists")) || {};
+      const storedLists = JSON.parse(localStorage.getItem("lists")) ||{Todo:[],Review:[],Completed:[]};
       setLists(storedLists);
     }
   }, []);
