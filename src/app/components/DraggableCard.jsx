@@ -19,8 +19,10 @@ export default function DraggableCard({ card, index, list, lists,setLists }) {
     let oldIndex = lists[list].indexOf(card)
     lists[list].splice(oldIndex , 1)
     lists[value][lists[value].length] = card
-    setLists(lists)
     localStorage.setItem('lists' , JSON.stringify({...lists}))
+    const listData = JSON.parse(localStorage.getItem('lists'))
+    setLists({...listData})
+
   };
   return (
     <>

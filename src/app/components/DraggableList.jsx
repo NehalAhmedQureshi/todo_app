@@ -18,9 +18,11 @@ export default function DraggableList({
         sx={{
           padding: "10px",
           zIndex: 2,
+          outline:onDragOver && '2px solid black',
+          outlineStyle  : onDragOver && 'dashed',
         }}
-        // onDragOver={(e) => setOnDragOver(true)}
-        // onDragLeave={(e) => setOnDragOver(false)}
+        onDragOver={(e) => setOnDragOver(true)}
+        onDragLeave={(e) => setOnDragOver(false)}
       >
         <Stack
           alignItems="center"
