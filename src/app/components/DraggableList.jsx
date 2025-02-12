@@ -38,7 +38,7 @@ export default function DraggableList({
             value={textField[list] || ""}
             fullWidth
           />
-          <Button variant="contained" fullWidth>
+          <Button type="submit" variant="contained" fullWidth>
             Add Card
           </Button>
           <Stack width={"100%"} direction={"row"} gap={1} flexWrap={"wrap"} >

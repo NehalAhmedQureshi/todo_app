@@ -8,8 +8,6 @@ import { handleChange } from "./hook/handleChange";
 export default function Home() {
   const [textField, setTextField] = useState({});
   const [lists, setLists] = useState({});
-  console.log("🚀 ~ Home ~ lists:", lists)
-
   // Load data from localStorage safely
   useEffect(() => {
     if (typeof window !== "undefined") {
