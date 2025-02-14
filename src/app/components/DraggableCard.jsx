@@ -2,20 +2,41 @@
 
 import {
   Box,
+  Chip,
+  IconButton,
   Menu,
   MenuItem,
   Paper,
   Select,
   Stack,
+  TextField,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import { useState } from "react";
 import BasicMenu from "./BasicMenu";
+import { Edit, SettingsPowerRounded } from "@mui/icons-material";
+import { handleChange } from "../hook/handleChange";
 
-export default function DraggableCard({ card, index, list, lists,setLists }) {
+export default function DraggableCard({ card, index, list, lists, setLists }) {
   let [isMoving, setIsMoving] = useState(false);
   let [dragOver, setDragOver] = useState(false);
-  
+  let [isEdit, setIsEdit] = useState(false);
+  let [textField, setTextField] = useState(null);
+  let [error, setError] = useState("");
+  const handleEdit = (e) => {
+    e.preventDefault();
+    if (textField?.editCard) {
+      let editList = { ...lists };
+      let cardIndex = editList[list].indexOf(card);
+      editList[list].splice(cardIndex, 1, textField?.editCard); // edit card text
+      setLists({ ...editList }); // setList and save it in local storage
+      setIsEdit(false);
+    } else {
+      // set error if edit text field is empty on submit.
+      setError("Field can not be empty.");
+    }
+  };
   return (
     <>
       <Paper
@@ -34,9 +55,42 @@ export default function DraggableCard({ card, index, list, lists,setLists }) {
         onDragOver={(e) => setDragOver(true)}
         onDragLeave={(e) => setDragOver(false)}
       >
-        <Stack direction={"row"} alignItems={'center'} justifyContent={"space-between"}>
-          <Typography variant="body2">{`${card}`}</Typography>
-          <BasicMenu list={list} lists={lists} setLists={setLists} card={card} />
+        <Stack
+          direction={"row"}
+          alignItems={"center"}
+          justifyContent={"space-between"}
+        >
+          {isEdit ? (
+            <form onSubmit={handleEdit}>
+              <TextField
+                error={error}
+                helperText={error}
+                placeholder="Edit this"
+                name="editCard"
+                onChange={(e) => handleChange(e, setTextField)}
+                value={isEdit ? textField?.editCard || "" : card}
+                variant="standard"
+              />
+            </form>
+          ) : (
+            <Typography variant="body2">{`${card}`}</Typography>
+          )}
+          <Stack direction={"row"} alignItems={"center"}>
+            <Tooltip title={"Priority"} arrow>
+              <Chip color="primary" label={"normal"} size="small" />
+            </Tooltip>
+            <Tooltip title={"Edit"} arrow>
+              <IconButton onClick={() => setIsEdit(!isEdit)}>
+                <Edit fontSize="small" />
+              </IconButton>
+            </Tooltip>
+            <BasicMenu
+              list={list}
+              lists={lists}
+              setLists={setLists}
+              card={card}
+            />
+          </Stack>
         </Stack>
       </Paper>
       {dragOver && (

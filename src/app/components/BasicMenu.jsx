@@ -3,7 +3,7 @@ import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { IconButton, MenuList, Select, Typography } from "@mui/material";
-import { MoreVert } from "@mui/icons-material";
+import { Edit, MoreVert } from "@mui/icons-material";
 
 export default function BasicMenu({ list ,lists , setLists,card}) {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -44,7 +44,8 @@ export default function BasicMenu({ list ,lists , setLists,card}) {
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem onClick={handleClose}>Edit</MenuItem>
+        <MenuItem onClick={handleClose}>
+        </MenuItem>
         <MenuItem onClick={handleClose}>
           <Select
             value={list}
@@ -52,7 +53,7 @@ export default function BasicMenu({ list ,lists , setLists,card}) {
             onChange={handleListChange}
           >
             {Object.keys(lists).map((list, key) => (
-              <MenuItem sx={{ height: "20px" }} value={list} key={key}>
+              <MenuItem sx={{height: "20px",width:'100%'}} value={list} key={key}>
                 <Typography variant="body2">{list}</Typography>
               </MenuItem>
             ))}

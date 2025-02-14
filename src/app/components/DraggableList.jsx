@@ -21,7 +21,7 @@ export default function DraggableList({ list, index, lists, setList }) {
     let updatedLists = { ...lists }; // Copy the lists object
     delete updatedLists[list]; // Remove the array with the key stored in `list`
     setList(updatedLists); // Update state
-  }
+  };
   return (
     <Paper
       sx={{
@@ -34,25 +34,29 @@ export default function DraggableList({ list, index, lists, setList }) {
       onDragLeave={(e) => setOnDragOver(false)}
       key={index}
     >
-      <Stack
-        alignItems="center"
-        gap={1}
-        component={"form"}
-        onSubmit={(e) =>
-          handleCardAdder(e, list, setTextField, textField, setList)
-        }
-      >
-        <Stack width={'100%'} direction={'row'} justifyContent={'space-between'}>
-          <Typography variant="h6">
-            {list}
-          </Typography>
-          <Tooltip title={'Delete List'} arrow>
-
-          <IconButton onClick={handleListDelete}><Delete /></IconButton>
+      <Stack alignItems="center" gap={1}>
+        <Stack
+          width={"100%"}
+          direction={"row"}
+          justifyContent={"space-between"}
+        >
+          <Typography variant="h6">{list}</Typography>
+          <Tooltip title={"Delete List"} arrow>
+            <IconButton onClick={handleListDelete}>
+              <Delete />
+            </IconButton>
           </Tooltip>
         </Stack>
         <Divider sx={{ width: "100%" }} />
-        <Stack width={'100%'} direction={"row"} justifyContent={'space-between'}>
+        <Stack
+          width={"100%"}
+          direction={"row"}
+          justifyContent={"space-between"}
+          component={"form"}
+          onSubmit={(e) =>
+            handleCardAdder(e, list, setTextField, textField, setList)
+          }
+        >
           <TextField
             name={list}
             label="Add Card"

@@ -20,6 +20,7 @@ import { Add, DeleteForever } from "@mui/icons-material";
 export default function Home() {
   const [textField, setTextField] = useState({});
   const [lists, setLists] = useState({});
+  let [error, setError] = useState("");
   // Load data from localStorage safely
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -29,7 +30,13 @@ export default function Home() {
   }, []);
 
   const handleList = (e) => {
+    setError("");
     e.preventDefault();
+    let isExists = Object.keys(lists).includes(textField?.list);
+    if (isExists) {
+      setError("List name already exits");
+      return;
+    }
     if (textField.list) {
       setLists((prev) => {
         const updatedLists = { ...prev, [textField.list]: [] };
@@ -58,7 +65,9 @@ export default function Home() {
           alignItems={"center"}
           justifyContent={"space-between"}
         >
-          <Typography alignSelf={'center'} variant="h5">Todo App</Typography>
+          <Typography alignSelf={"center"} variant="h5">
+            Todo App
+          </Typography>
           <Stack
             direction={"row"}
             component="form"
@@ -66,6 +75,8 @@ export default function Home() {
             onSubmit={handleList}
           >
             <TextField
+              error={!!error}
+              helperText={error}
               name="list"
               label="Add List"
               onChange={(e) => handleChange(e, setTextField)}
