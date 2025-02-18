@@ -5,7 +5,8 @@ import MenuItem from "@mui/material/MenuItem";
 import { IconButton, MenuList, Select, Typography } from "@mui/material";
 import { Edit, MoreVert } from "@mui/icons-material";
 
-export default function BasicMenu({ list ,lists , setLists,card}) {
+export default function BasicMenu({ list ,lists , setLists,card,priority}) {
+  console.log("🚀 ~ BasicMenu ~ card:", card)
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -16,9 +17,10 @@ export default function BasicMenu({ list ,lists , setLists,card}) {
   };
   const handleListChange = (e) => {
     let {value} = e.target
-    let oldIndex = lists[list].indexOf(card)
+    let oldIndex = lists[list].indexOf({name : card , priority})
+    console.log("🚀 ~ handleListChange ~ oldIndex:", oldIndex)
     lists[list].splice(oldIndex , 1)
-    lists[value][lists[value].length] = card
+    lists[value][lists[value].length] = {name : card , priority}
     localStorage.setItem('lists' , JSON.stringify({...lists}))
     const listData = JSON.parse(localStorage.getItem('lists'))
     setLists({...listData})

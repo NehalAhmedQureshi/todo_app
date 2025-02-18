@@ -5,7 +5,9 @@ import {
   Button,
   Divider,
   IconButton,
+  MenuItem,
   Paper,
+  Select,
   Stack,
   TextField,
   Tooltip,
@@ -15,8 +17,11 @@ import { handleCardAdder } from "../hook/handleCardAdder";
 import { handleChange } from "../hook/handleChange";
 import { Add, Delete } from "@mui/icons-material";
 export default function DraggableList({ list, index, lists, setList }) {
+  console.log("🚀 ~ DraggableList ~ lists:", lists);
   const [onDragOver, setOnDragOver] = useState(false);
+  let [select, setSelect] = useState("Low");
   let [textField, setTextField] = useState({});
+  let [error, setError] = useState("");
   const handleListDelete = () => {
     let updatedLists = { ...lists }; // Copy the lists object
     delete updatedLists[list]; // Remove the array with the key stored in `list`
@@ -52,18 +57,33 @@ export default function DraggableList({ list, index, lists, setList }) {
           width={"100%"}
           direction={"row"}
           justifyContent={"space-between"}
+          alignItems={"end"}
           component={"form"}
+          gap={1}
           onSubmit={(e) =>
-            handleCardAdder(e, list, setTextField, textField, setList)
+            handleCardAdder(e, list, setTextField, textField, setList, select,lists,setError)
           }
         >
+            <Tooltip title={'Priority'} arrow>
+              <Select
+                sx={{ height: "25px" }}
+                value={select}
+                error={error}
+                variant="outlined"
+                onChange={(e) => setSelect(e.target.value)}
+              >
+                <MenuItem value="Low">Low</MenuItem>
+                <MenuItem value="Normal">Normal</MenuItem>
+                <MenuItem value="Medium">Medium</MenuItem>
+                <MenuItem value="High">High</MenuItem>
+              </Select>
+            </Tooltip>
           <TextField
             name={list}
             label="Add Card"
             onChange={(e) => handleChange(e, setTextField)}
             value={textField[list] || ""}
             variant="standard"
-            fullWidth
           />
           <Tooltip title="Add" arrow>
             <IconButton
@@ -81,7 +101,8 @@ export default function DraggableList({ list, index, lists, setList }) {
               <DraggableCard
                 lists={lists}
                 list={list}
-                card={card}
+                card={card?.name}
+                priority={card?.priority}
                 key={index}
                 setLists={setList}
               />

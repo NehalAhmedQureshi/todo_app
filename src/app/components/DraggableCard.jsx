@@ -3,6 +3,7 @@
 import {
   Box,
   Chip,
+  FormControl,
   IconButton,
   Menu,
   MenuItem,
@@ -18,7 +19,14 @@ import BasicMenu from "./BasicMenu";
 import { Edit, SettingsPowerRounded } from "@mui/icons-material";
 import { handleChange } from "../hook/handleChange";
 
-export default function DraggableCard({ card, index, list, lists, setLists }) {
+export default function DraggableCard({
+  card,
+  index,
+  priority,
+  list,
+  lists,
+  setLists,
+}) {
   let [isMoving, setIsMoving] = useState(false);
   let [dragOver, setDragOver] = useState(false);
   let [isEdit, setIsEdit] = useState(false);
@@ -27,13 +35,19 @@ export default function DraggableCard({ card, index, list, lists, setLists }) {
   const handleEdit = (e) => {
     e.preventDefault();
     if (textField?.editCard) {
+      console.log("submit");
       let editList = { ...lists };
-      let cardIndex = editList[list].indexOf(card);
-      editList[list].splice(cardIndex, 1, textField?.editCard); // edit card text
+      let cardIndex = editList[list].indexOf({ name: card, priority });
+      console.log("🚀 ~ handleEdit ~ cardIndex:", cardIndex);
+      editList[list].splice(cardIndex, 1, {
+        name: textField?.editCard,
+        priority,
+      }); // edit card text
       setLists({ ...editList }); // setList and save it in local storage
       setIsEdit(false);
     } else {
       // set error if edit text field is empty on submit.
+      console.log("error");
       setError("Field can not be empty.");
     }
   };
@@ -61,14 +75,32 @@ export default function DraggableCard({ card, index, list, lists, setLists }) {
           justifyContent={"space-between"}
         >
           {isEdit ? (
-            <form onSubmit={handleEdit}>
+            <form
+              style={{ display: "flex", flexDirection: "row", gap: "5px" }}
+              onSubmit={(e)=>handleEdit(e)}
+            >
+              {/* <FormControl>
+                <Select
+                  sx={{ height: "25px" }}
+                  value={textField?.priority || priority || ""}
+                  error={error}
+                  variant="outlined"
+                  name="priority"
+                  onChange={(e) => handleChange(e, setTextField)}
+                >
+                  <MenuItem value="Low">Low</MenuItem>
+                  <MenuItem value="Normal">Normal</MenuItem>
+                  <MenuItem value="Medium">Medium</MenuItem>
+                  <MenuItem value="High">High</MenuItem>
+                </Select>
+              </FormControl> */}
               <TextField
                 error={error}
                 helperText={error}
                 placeholder="Edit this"
                 name="editCard"
                 onChange={(e) => handleChange(e, setTextField)}
-                value={isEdit ? textField?.editCard || "" : card}
+                value={textField?.editCard || card}
                 variant="standard"
               />
             </form>
@@ -76,9 +108,23 @@ export default function DraggableCard({ card, index, list, lists, setLists }) {
             <Typography variant="body2">{`${card}`}</Typography>
           )}
           <Stack direction={"row"} alignItems={"center"}>
-            <Tooltip title={"Priority"} arrow>
-              <Chip color="primary" label={"normal"} size="small" />
-            </Tooltip>
+            {isEdit || (
+              <Tooltip title={"Priority"} arrow>
+                <Chip
+                  color={
+                    priority === "Normal"
+                      ? "primary"
+                      : priority === "Low"
+                      ? "default"
+                      : priority === "Medium"
+                      ? "warning"
+                      : "error"
+                  }
+                  label={priority}
+                  size="small"
+                />
+              </Tooltip>
+            )}
             <Tooltip title={"Edit"} arrow>
               <IconButton onClick={() => setIsEdit(!isEdit)}>
                 <Edit fontSize="small" />
@@ -89,6 +135,7 @@ export default function DraggableCard({ card, index, list, lists, setLists }) {
               lists={lists}
               setLists={setLists}
               card={card}
+              priority={priority}
             />
           </Stack>
         </Stack>
