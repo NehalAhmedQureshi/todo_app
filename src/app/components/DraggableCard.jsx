@@ -70,8 +70,7 @@ export default function DraggableCard({
         onDragLeave={(e) => setDragOver(false)}
       >
         <Stack
-          alignItems={"center"}
-          justifyContent={"space-between"}
+          alignItems={"flex-start"}
         >
           {isEdit ? (
             <form

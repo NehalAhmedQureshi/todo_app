@@ -1,4 +1,4 @@
-export function handleCardAdder(e, list,setTextField,textField,setList,select,lists,setError){
+export function handleCardAdder(e, list,setTextField,textField,setList,select,lists,setError,setSelect){
   lists[list]?.map((list , index)=>{
     let {name} = list
     if (name === textField[list]){
@@ -14,5 +14,6 @@ export function handleCardAdder(e, list,setTextField,textField,setList,select,li
       }));
 
       setTextField({}); // Reset input field
+      setSelect('Low') //Reset select field
     }
   };

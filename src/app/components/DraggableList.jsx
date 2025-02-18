@@ -17,7 +17,6 @@ import { handleCardAdder } from "../hook/handleCardAdder";
 import { handleChange } from "../hook/handleChange";
 import { Add, Delete } from "@mui/icons-material";
 export default function DraggableList({ list, index, lists, setList }) {
-  console.log("🚀 ~ DraggableList ~ lists:", lists);
   const [onDragOver, setOnDragOver] = useState(false);
   let [select, setSelect] = useState("Low");
   let [textField, setTextField] = useState({});
@@ -61,7 +60,7 @@ export default function DraggableList({ list, index, lists, setList }) {
           component={"form"}
           gap={1}
           onSubmit={(e) =>
-            handleCardAdder(e, list, setTextField, textField, setList, select,lists,setError)
+            handleCardAdder(e, list, setTextField, textField, setList, select,lists,setError,setSelect)
           }
         >
             <Tooltip title={'Priority'} arrow>
