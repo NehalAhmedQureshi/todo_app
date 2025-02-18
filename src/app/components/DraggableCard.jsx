@@ -70,7 +70,6 @@ export default function DraggableCard({
         onDragLeave={(e) => setDragOver(false)}
       >
         <Stack
-          direction={"row"}
           alignItems={"center"}
           justifyContent={"space-between"}
         >
