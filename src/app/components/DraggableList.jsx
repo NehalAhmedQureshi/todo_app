@@ -131,7 +131,7 @@ export default function DraggableList({ list, index, lists, setList }) {
           </Tooltip>
         </Stack>
         <Stack width={"100%"} direction={"row"} gap={1} flexWrap={"wrap"}>
-          {lists[list].map((card, index) => {
+          {[...(lists[list] || [])].reverse().map((card, index) => {
             return (
               <DraggableCard
                 lists={lists}
@@ -139,7 +139,7 @@ export default function DraggableList({ list, index, lists, setList }) {
                 card={card?.name}
                 priority={card?.priority}
                 key={index}
-                setLists={setList}
+                setLists={setList} // Ensure `setLists` is correct
               />
             );
           })}
