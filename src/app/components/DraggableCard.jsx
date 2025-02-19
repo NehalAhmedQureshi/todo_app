@@ -14,6 +14,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
+import {Flag} from "@mui/icons-material"
 import { useState } from "react";
 import BasicMenu from "./BasicMenu";
 import { Edit, SettingsPowerRounded } from "@mui/icons-material";
@@ -107,8 +108,8 @@ export default function DraggableCard({
           )}
           <Stack direction={"row"} alignItems={"center"}>
             {isEdit || (
-              <Tooltip title={"Priority"} arrow>
-                <Chip
+              <Tooltip title={`${priority} priority`} arrow>
+                <Flag
                   color={
                     priority === "Normal"
                       ? "primary"
@@ -118,7 +119,7 @@ export default function DraggableCard({
                       ? "warning"
                       : "error"
                   }
-                  label={priority}
+                  // label={priority}
                   size="small"
                 />
               </Tooltip>
