@@ -30,12 +30,31 @@ export default function DraggableList({ list, index, lists, setList }) {
   };
   return (
     <Paper
-      sx={{
-        padding: "10px",
-        zIndex: 2,
-        outline: onDragOver && "2px solid black",
-        outlineStyle: onDragOver && "dashed",
-      }}
+    sx={{
+      padding: "10px",
+      zIndex: 2,
+      outline: onDragOver && "2px solid black",
+      outlineStyle: onDragOver && "dashed",
+      maxHeight: "85vh",
+      overflow: "auto",
+      scrollbarWidth: "thin", // Makes scrollbar thinner in Firefox
+      scrollbarColor: "rgb(184, 179, 179) transparent", // Custom scrollbar color
+      scrollBehavior: "smooth",
+    
+      "&::-webkit-scrollbar": {
+        width: "8px", // Thin scrollbar
+      },
+      "&::-webkit-scrollbar-track": {
+        background: "transparent", // Fully transparent track
+      },
+      "&::-webkit-scrollbar-thumb": {
+        background: "rgb(184, 179, 179)", // Thumb color
+        "&:hover": {
+          background: "rgb(100, 90, 90)", // Darker shade on hover
+        },
+      },
+    }}
+    
       onDragOver={(e) => setOnDragOver(true)}
       onDragLeave={(e) => setOnDragOver(false)}
       key={index}
